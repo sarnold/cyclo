@@ -1,0 +1,1865 @@
+%!PS
+%%Creator: cyclo - Control flow graph
+/node {
+dup
+xconst mul
+/x exch def			
+numnodes 1 add exch sub
+yconst mul
+/y exch def
+
+% centre string
+dup stringwidth pop
+2 div       
+x exch sub /xx exch def
+fontsize
+3 div                    % why 3 I wonder?
+y exch sub /yy exch def 
+xx yy moveto
+show
+
+%draw circle
+newpath  % remove line to start of circle
+currentlinewidth
+bubble setlinewidth
+x y radius 0 360 arc stroke
+setlinewidth
+} def
+
+/factor 2 sqrt def
+
+/top {  % nodeno -top- xcoord ycoord
+dup
+xconst mul /x exch def
+numnodes 1 add exch sub
+yconst mul /y exch def
+x radius factor div add y radius factor div add
+} def
+
+/bottom {  % nodeno -bottom- xcoord ycoord
+dup
+xconst mul /x exch def
+numnodes 1 add exch sub
+yconst mul /y exch def
+x radius factor div sub y radius factor div sub
+} def 
+
+/toploop { % nodeno -toploop- xcoord ycoord
+dup
+xconst mul /x exch def
+numnodes 1 add exch sub
+yconst mul /y exch def
+x y radius add
+} def
+
+/rightloop { % nodeno -rightloop- xcoord ycoord
+dup
+xconst mul /x exch def
+numnodes 1 add exch sub
+yconst mul /y exch def
+x radius add y
+} def
+
+/arcback {
+/second exch def
+/first exch def
+currentlinewidth
+newpath
+linewid setlinewidth
+first bottom moveto
+
+first bottom pop /xxx exch def
+second bottom exch pop /yyy exch def
+
+xxx 
+yyy dup first bottom exch pop sub abs fudge mul add
+xxx dup second bottom pop sub abs fudge mul add
+yyy
+
+second bottom
+curveto
+stroke
+
+% arrow head
+first bottom moveto
+first bottom pop 0.25 radius mul arrow mul add
+first bottom exch pop radius arrow mul sub
+lineto
+
+first bottom moveto
+first bottom pop 0.25 radius mul arrow mul sub
+first bottom exch pop radius arrow mul sub
+lineto
+
+stroke
+
+setlinewidth
+} def
+
+/arcloop {
+/n exch def
+currentlinewidth
+newpath
+linewid setlinewidth
+n toploop /ytop exch def /xtop exch def
+n rightloop /yright exch def /xright exch def
+
+xright yright moveto
+xright radius loopfactor mul add yright radius loopfactor mul 6 div add
+xtop ytop radius loopfactor mul add
+xtop ytop
+curveto
+stroke
+
+% arrow head
+xtop ytop moveto
+xtop 0.25 radius mul arrow mul add
+ytop radius arrow mul add
+lineto
+
+xtop ytop moveto
+xtop 0.25 radius mul arrow mul sub
+ytop radius arrow mul add
+lineto
+
+stroke
+setlinewidth
+} def 
+
+/arcfore {
+/second exch def
+/first exch def
+currentlinewidth
+newpath
+linewid setlinewidth
+first top moveto
+
+second top pop /xxx exch def
+first top exch pop /yyy exch def
+
+xxx dup first bottom pop sub abs fudge mul sub
+yyy
+xxx 
+yyy dup second bottom exch pop sub abs fudge mul sub
+
+
+second top
+curveto
+stroke
+
+% arrow head
+second top moveto
+second top pop radius arrow 0.25 mul mul sub
+second top exch pop radius arrow mul add
+lineto
+
+second top moveto
+second top pop radius arrow 0.25 mul mul add
+second top exch pop radius arrow mul add
+lineto
+
+stroke
+
+setlinewidth
+} def
+
+/xconst    10 def       % distance bubbles are apart (x)
+/yconst    10 def       % distance bubbles are apart (y)
+/radius     6 def       % radius of bubble
+/loopfactor 2 def       % multiply by radius for loopback distance
+/fontsize   6 def       % point size of text in bubbles
+/fudge     .4 def       % flatness of lines between bubbles
+/linewid  0.2 def       % width of lines between bubbles
+/bubble   0.6 def       % width of circle around bubbles 
+/arrow    0.6 def       % arrowhead length as proportion of bubble radius
+
+% Flow graph for function Token::Token
+/Helvetica-Narrow findfont fontsize scalefont setfont
+% move away from margins
+20 40 translate
+1 1 scale
+/numnodes 2 def    % number of nodes
+(36) 1 node 
+1 2 arcfore
+(38) 2 node 
+
+showpage
+% Flow graph for function Token::~Token
+/Helvetica-Narrow findfont fontsize scalefont setfont
+% move away from margins
+20 40 translate
+1 1 scale
+/numnodes 5 def    % number of nodes
+(40) 1 node 
+1 2 arcfore
+(41) 2 node 
+2 3 arcfore
+2 4 arcfore
+(42) 3 node 
+3 4 arcfore
+(43) 4 node 
+4 5 arcfore
+(44) 5 node 
+
+showpage
+% Flow graph for function Place::Place
+/Helvetica-Narrow findfont fontsize scalefont setfont
+% move away from margins
+20 40 translate
+1 1 scale
+/numnodes 2 def    % number of nodes
+(67) 1 node 
+1 2 arcfore
+(72) 2 node 
+
+showpage
+% Flow graph for function Function::Function
+/Helvetica-Narrow findfont fontsize scalefont setfont
+% move away from margins
+20 40 translate
+1 1 scale
+/numnodes 2 def    % number of nodes
+(89) 1 node 
+1 2 arcfore
+(92) 2 node 
+
+showpage
+% Flow graph for function Function::~Function
+/Helvetica-Narrow findfont fontsize scalefont setfont
+% move away from margins
+20 40 translate
+1 1 scale
+/numnodes 5 def    % number of nodes
+(94) 1 node 
+1 2 arcfore
+(95) 2 node 
+2 3 arcfore
+2 4 arcfore
+(96) 3 node 
+3 4 arcfore
+(97) 4 node 
+4 5 arcfore
+(98) 5 node 
+
+showpage
+% Flow graph for function Info::Info
+/Helvetica-Narrow findfont fontsize scalefont setfont
+% move away from margins
+20 40 translate
+1 1 scale
+/numnodes 2 def    % number of nodes
+(126) 1 node 
+1 2 arcfore
+(129) 2 node 
+
+showpage
+% Flow graph for function parsefail
+/Helvetica-Narrow findfont fontsize scalefont setfont
+% move away from margins
+20 40 translate
+1 1 scale
+/numnodes 2 def    % number of nodes
+(170) 1 node 
+1 2 arcfore
+(174) 2 node 
+
+showpage
+% Flow graph for function AddPlace
+/Helvetica-Narrow findfont fontsize scalefont setfont
+% move away from margins
+20 40 translate
+1 1 scale
+/numnodes 3 def    % number of nodes
+(178) 1 node 
+1 2 arcfore
+(184) 2 node 
+2 3 arcfore
+(185) 3 node 
+
+showpage
+% Flow graph for function AddToPlace
+/Helvetica-Narrow findfont fontsize scalefont setfont
+% move away from margins
+20 40 translate
+1 1 scale
+/numnodes 2 def    % number of nodes
+(189) 1 node 
+1 2 arcfore
+(195) 2 node 
+
+showpage
+% Flow graph for function NoImplicit
+/Helvetica-Narrow findfont fontsize scalefont setfont
+% move away from margins
+20 40 translate
+1 1 scale
+/numnodes 2 def    % number of nodes
+(199) 1 node 
+1 2 arcfore
+(202) 2 node 
+
+showpage
+% Flow graph for function rd_buffer
+/Helvetica-Narrow findfont fontsize scalefont setfont
+% move away from margins
+20 40 translate
+1 1 scale
+/numnodes 12 def    % number of nodes
+(206) 1 node 
+1 2 arcfore
+(209) 2 node 
+2 3 arcfore
+2 11 arcfore
+(210) 3 node 
+3 4 arcfore
+(211) 4 node 
+4 5 arcfore
+4 6 arcfore
+(212) 5 node 
+5 11 arcfore
+(213) 6 node 
+6 7 arcfore
+(214) 7 node 
+7 8 arcfore
+7 9 arcfore
+(215) 8 node 
+8 12 arcfore
+(216) 9 node 
+9 10 arcfore
+(217) 10 node 
+2 10 arcback
+(218) 11 node 
+11 12 arcfore
+(219) 12 node 
+
+showpage
+% Flow graph for function rd_scudefinition
+/Helvetica-Narrow findfont fontsize scalefont setfont
+% move away from margins
+20 40 translate
+1 1 scale
+/numnodes 15 def    % number of nodes
+(222) 1 node 
+1 2 arcfore
+(225) 2 node 
+2 3 arcfore
+2 5 arcfore
+(225) 3 node 
+3 4 arcfore
+(226) 4 node 
+4 15 arcfore
+(228) 5 node 
+5 6 arcfore
+5 8 arcfore
+(228) 6 node 
+6 7 arcfore
+(229) 7 node 
+7 15 arcfore
+(231) 8 node 
+8 9 arcfore
+(237) 9 node 
+9 10 arcfore
+9 11 arcfore
+(237) 10 node 
+10 15 arcfore
+(239) 11 node 
+11 12 arcfore
+11 13 arcfore
+(239) 12 node 
+12 13 arcfore
+(242) 13 node 
+13 14 arcfore
+(244) 14 node 
+14 15 arcfore
+(245) 15 node 
+
+showpage
+% Flow graph for function rd_topscope
+/Helvetica-Narrow findfont fontsize scalefont setfont
+% move away from margins
+20 40 translate
+1 1 scale
+/numnodes 10 def    % number of nodes
+(248) 1 node 
+1 2 arcfore
+(251) 2 node 
+2 3 arcfore
+2 4 arcfore
+(251) 3 node 
+3 10 arcfore
+(253) 4 node 
+4 5 arcfore
+(254) 5 node 
+5 6 arcfore
+5 7 arcfore
+(254) 6 node 
+6 7 arcfore
+(257) 7 node 
+7 8 arcfore
+7 9 arcfore
+(258) 8 node 
+8 9 arcfore
+(260) 9 node 
+9 10 arcfore
+(261) 10 node 
+
+showpage
+% Flow graph for function rd_topstatement
+/Helvetica-Narrow findfont fontsize scalefont setfont
+% move away from margins
+20 40 translate
+1 1 scale
+/numnodes 15 def    % number of nodes
+(264) 1 node 
+1 2 arcfore
+(267) 2 node 
+2 3 arcfore
+2 14 arcfore
+(268) 3 node 
+3 4 arcfore
+(270) 4 node 
+4 5 arcfore
+4 9 arcfore
+(271) 5 node 
+5 6 arcfore
+(272) 6 node 
+6 7 arcfore
+6 8 arcfore
+(273) 7 node 
+7 8 arcfore
+(274) 8 node 
+8 15 arcfore
+(276) 9 node 
+9 10 arcfore
+(281) 10 node 
+10 11 arcfore
+10 12 arcfore
+(282) 11 node 
+11 15 arcfore
+(284) 12 node 
+12 13 arcfore
+(285) 13 node 
+2 13 arcback
+(286) 14 node 
+14 15 arcfore
+(287) 15 node 
+
+showpage
+% Flow graph for function rd_functiondefinition
+/Helvetica-Narrow findfont fontsize scalefont setfont
+% move away from margins
+20 40 translate
+1 1 scale
+/numnodes 35 def    % number of nodes
+(290) 1 node 
+1 2 arcfore
+(293) 2 node 
+2 3 arcfore
+2 4 arcfore
+(294) 3 node 
+3 35 arcfore
+(296) 4 node 
+4 5 arcfore
+4 7 arcfore
+(296) 5 node 
+5 6 arcfore
+(297) 6 node 
+6 35 arcfore
+(299) 7 node 
+7 8 arcfore
+(300) 8 node 
+8 9 arcfore
+(301) 9 node 
+9 10 arcfore
+9 11 arcfore
+(302) 10 node 
+10 11 arcfore
+(304) 11 node 
+11 12 arcfore
+11 13 arcfore
+(304) 12 node 
+12 13 arcfore
+(307) 13 node 
+13 14 arcfore
+13 15 arcfore
+(307) 14 node 
+14 15 arcfore
+(310) 15 node 
+15 16 arcfore
+15 34 arcfore
+(311) 16 node 
+16 17 arcfore
+(319) 17 node 
+17 18 arcfore
+17 28 arcfore
+(320) 18 node 
+18 19 arcfore
+(324) 19 node 
+19 20 arcfore
+19 22 arcfore
+(324) 20 node 
+20 21 arcfore
+(325) 21 node 
+19 21 arcback
+(326) 22 node 
+22 23 arcfore
+(330) 23 node 
+23 24 arcfore
+23 26 arcfore
+(330) 24 node 
+24 25 arcfore
+(334) 25 node 
+23 25 arcback
+(335) 26 node 
+26 27 arcfore
+(336) 27 node 
+27 29 arcfore
+(337) 28 node 
+28 29 arcfore
+(339) 29 node 
+29 30 arcfore
+(343) 30 node 
+30 31 arcfore
+30 32 arcfore
+(343) 31 node 
+31 32 arcfore
+(344) 32 node 
+32 33 arcfore
+(345) 33 node 
+8 33 arcback
+(347) 34 node 
+34 35 arcfore
+(348) 35 node 
+
+showpage
+% Flow graph for function rd_statements
+/Helvetica-Narrow findfont fontsize scalefont setfont
+% move away from margins
+20 40 translate
+1 1 scale
+/numnodes 9 def    % number of nodes
+(351) 1 node 
+1 2 arcfore
+(353) 2 node 
+2 3 arcfore
+2 8 arcfore
+(354) 3 node 
+3 4 arcfore
+(356) 4 node 
+4 5 arcfore
+4 6 arcfore
+(357) 5 node 
+5 9 arcfore
+(358) 6 node 
+6 7 arcfore
+(359) 7 node 
+2 7 arcback
+(360) 8 node 
+8 9 arcfore
+(361) 9 node 
+
+showpage
+% Flow graph for function rd_statement
+/Helvetica-Narrow findfont fontsize scalefont setfont
+% move away from margins
+20 40 translate
+1 1 scale
+/numnodes 33 def    % number of nodes
+(364) 1 node 
+1 2 arcfore
+(366) 2 node 
+2 3 arcfore
+2 32 arcfore
+(367) 3 node 
+3 4 arcfore
+(369) 4 node 
+4 5 arcfore
+4 9 arcfore
+(370) 5 node 
+5 6 arcfore
+(371) 6 node 
+6 7 arcfore
+6 8 arcfore
+(372) 7 node 
+7 8 arcfore
+(373) 8 node 
+8 33 arcfore
+(375) 9 node 
+9 10 arcfore
+(388) 10 node 
+10 19 arcfore
+10 18 arcfore
+10 17 arcfore
+10 16 arcfore
+10 15 arcfore
+10 14 arcfore
+10 13 arcfore
+10 12 arcfore
+10 11 arcfore
+10 23 arcfore
+10 25 arcfore
+10 29 arcfore
+(390) 11 node 
+11 12 arcfore
+(391) 12 node 
+12 13 arcfore
+(392) 13 node 
+13 14 arcfore
+(393) 14 node 
+14 15 arcfore
+(394) 15 node 
+15 16 arcfore
+(395) 16 node 
+16 17 arcfore
+(396) 17 node 
+17 18 arcfore
+(397) 18 node 
+18 19 arcfore
+(398) 19 node 
+19 20 arcfore
+(399) 20 node 
+20 21 arcfore
+20 22 arcfore
+(400) 21 node 
+21 22 arcfore
+(401) 22 node 
+22 30 arcfore
+(402) 23 node 
+23 24 arcfore
+(403) 24 node 
+24 33 arcfore
+(404) 25 node 
+25 26 arcfore
+(405) 26 node 
+26 27 arcfore
+26 28 arcfore
+(406) 27 node 
+27 28 arcfore
+(407) 28 node 
+28 33 arcfore
+(408) 29 node 
+29 30 arcfore
+(411) 30 node 
+30 31 arcfore
+(412) 31 node 
+2 31 arcback
+(413) 32 node 
+32 33 arcfore
+(414) 33 node 
+
+showpage
+% Flow graph for function rd_scope
+/Helvetica-Narrow findfont fontsize scalefont setfont
+% move away from margins
+20 40 translate
+1 1 scale
+/numnodes 15 def    % number of nodes
+(417) 1 node 
+1 2 arcfore
+(420) 2 node 
+2 3 arcfore
+2 4 arcfore
+(421) 3 node 
+3 15 arcfore
+(423) 4 node 
+4 5 arcfore
+4 6 arcfore
+(424) 5 node 
+5 6 arcfore
+(425) 6 node 
+6 7 arcfore
+(426) 7 node 
+7 8 arcfore
+7 9 arcfore
+(426) 8 node 
+8 9 arcfore
+(428) 9 node 
+9 10 arcfore
+9 14 arcfore
+(429) 10 node 
+10 11 arcfore
+(431) 11 node 
+11 12 arcfore
+11 13 arcfore
+(431) 12 node 
+12 13 arcfore
+(433) 13 node 
+13 14 arcfore
+(435) 14 node 
+14 15 arcfore
+(436) 15 node 
+
+showpage
+% Flow graph for function rd_while
+/Helvetica-Narrow findfont fontsize scalefont setfont
+% move away from margins
+20 40 translate
+1 1 scale
+/numnodes 8 def    % number of nodes
+(442) 1 node 
+1 2 arcfore
+(445) 2 node 
+2 3 arcfore
+2 4 arcfore
+(446) 3 node 
+3 8 arcfore
+(448) 4 node 
+4 5 arcfore
+(451) 5 node 
+5 6 arcfore
+5 7 arcfore
+(452) 6 node 
+6 7 arcfore
+(464) 7 node 
+7 8 arcfore
+(465) 8 node 
+
+showpage
+% Flow graph for function rd_switch
+/Helvetica-Narrow findfont fontsize scalefont setfont
+% move away from margins
+20 40 translate
+1 1 scale
+/numnodes 15 def    % number of nodes
+(468) 1 node 
+1 2 arcfore
+(471) 2 node 
+2 3 arcfore
+2 4 arcfore
+(472) 3 node 
+3 15 arcfore
+(474) 4 node 
+4 5 arcfore
+(477) 5 node 
+5 6 arcfore
+5 14 arcfore
+(478) 6 node 
+6 7 arcfore
+(490) 7 node 
+7 8 arcfore
+7 11 arcfore
+(490) 8 node 
+8 9 arcfore
+(491) 9 node 
+9 10 arcfore
+9 11 arcfore
+(492) 10 node 
+7 10 arcback
+(493) 11 node 
+11 12 arcfore
+11 13 arcfore
+(494) 12 node 
+12 13 arcfore
+(495) 13 node 
+13 14 arcfore
+(496) 14 node 
+14 15 arcfore
+(497) 15 node 
+
+showpage
+% Flow graph for function rd_return
+/Helvetica-Narrow findfont fontsize scalefont setfont
+% move away from margins
+20 40 translate
+1 1 scale
+/numnodes 10 def    % number of nodes
+(500) 1 node 
+1 2 arcfore
+(503) 2 node 
+2 3 arcfore
+2 4 arcfore
+(504) 3 node 
+3 10 arcfore
+(506) 4 node 
+4 5 arcfore
+(507) 5 node 
+5 6 arcfore
+(510) 6 node 
+6 7 arcfore
+6 9 arcfore
+(511) 7 node 
+7 8 arcfore
+(516) 8 node 
+5 8 arcback
+(518) 9 node 
+9 10 arcfore
+(519) 10 node 
+
+showpage
+% Flow graph for function rd_if
+/Helvetica-Narrow findfont fontsize scalefont setfont
+% move away from margins
+20 40 translate
+1 1 scale
+/numnodes 13 def    % number of nodes
+(522) 1 node 
+1 2 arcfore
+(525) 2 node 
+2 3 arcfore
+2 4 arcfore
+(526) 3 node 
+3 13 arcfore
+(528) 4 node 
+4 5 arcfore
+(531) 5 node 
+5 6 arcfore
+5 7 arcfore
+(532) 6 node 
+6 7 arcfore
+(539) 7 node 
+7 8 arcfore
+7 9 arcfore
+(540) 8 node 
+8 13 arcfore
+(542) 9 node 
+9 10 arcfore
+(546) 10 node 
+10 11 arcfore
+10 12 arcfore
+(547) 11 node 
+11 12 arcfore
+(555) 12 node 
+12 13 arcfore
+(556) 13 node 
+
+showpage
+% Flow graph for function rd_goto
+/Helvetica-Narrow findfont fontsize scalefont setfont
+% move away from margins
+20 40 translate
+1 1 scale
+/numnodes 18 def    % number of nodes
+(559) 1 node 
+1 2 arcfore
+(562) 2 node 
+2 3 arcfore
+2 4 arcfore
+(563) 3 node 
+3 18 arcfore
+(565) 4 node 
+4 5 arcfore
+(566) 5 node 
+5 6 arcfore
+(569) 6 node 
+6 7 arcfore
+6 17 arcfore
+(570) 7 node 
+7 8 arcfore
+(572) 8 node 
+8 9 arcfore
+8 13 arcfore
+(572) 9 node 
+9 10 arcfore
+(573) 10 node 
+10 11 arcfore
+10 13 arcfore
+(573) 11 node 
+11 12 arcfore
+(574) 12 node 
+8 12 arcback
+(576) 13 node 
+13 14 arcfore
+13 15 arcfore
+(577) 14 node 
+14 15 arcfore
+(578) 15 node 
+15 16 arcfore
+(580) 16 node 
+5 16 arcback
+(582) 17 node 
+17 18 arcfore
+(583) 18 node 
+
+showpage
+% Flow graph for function rd_for
+/Helvetica-Narrow findfont fontsize scalefont setfont
+% move away from margins
+20 40 translate
+1 1 scale
+/numnodes 8 def    % number of nodes
+(586) 1 node 
+1 2 arcfore
+(589) 2 node 
+2 3 arcfore
+2 4 arcfore
+(590) 3 node 
+3 8 arcfore
+(592) 4 node 
+4 5 arcfore
+(600) 5 node 
+5 6 arcfore
+5 7 arcfore
+(601) 6 node 
+6 7 arcfore
+(616) 7 node 
+7 8 arcfore
+(617) 8 node 
+
+showpage
+% Flow graph for function rd_do
+/Helvetica-Narrow findfont fontsize scalefont setfont
+% move away from margins
+20 40 translate
+1 1 scale
+/numnodes 11 def    % number of nodes
+(620) 1 node 
+1 2 arcfore
+(623) 2 node 
+2 3 arcfore
+2 4 arcfore
+(624) 3 node 
+3 11 arcfore
+(626) 4 node 
+4 5 arcfore
+(628) 5 node 
+5 6 arcfore
+5 7 arcfore
+(629) 6 node 
+6 7 arcfore
+(630) 7 node 
+7 8 arcfore
+(634) 8 node 
+8 9 arcfore
+8 10 arcfore
+(635) 9 node 
+9 10 arcfore
+(650) 10 node 
+10 11 arcfore
+(651) 11 node 
+
+showpage
+% Flow graph for function rd_default
+/Helvetica-Narrow findfont fontsize scalefont setfont
+% move away from margins
+20 40 translate
+1 1 scale
+/numnodes 11 def    % number of nodes
+(654) 1 node 
+1 2 arcfore
+(657) 2 node 
+2 3 arcfore
+2 4 arcfore
+(658) 3 node 
+3 11 arcfore
+(660) 4 node 
+4 5 arcfore
+(663) 5 node 
+5 6 arcfore
+5 10 arcfore
+(664) 6 node 
+6 7 arcfore
+(665) 7 node 
+7 8 arcfore
+7 9 arcfore
+(666) 8 node 
+8 9 arcfore
+(667) 9 node 
+9 10 arcfore
+(672) 10 node 
+10 11 arcfore
+(673) 11 node 
+
+showpage
+% Flow graph for function rd_case
+/Helvetica-Narrow findfont fontsize scalefont setfont
+% move away from margins
+20 40 translate
+1 1 scale
+/numnodes 11 def    % number of nodes
+(676) 1 node 
+1 2 arcfore
+(679) 2 node 
+2 3 arcfore
+2 4 arcfore
+(680) 3 node 
+3 11 arcfore
+(682) 4 node 
+4 5 arcfore
+(685) 5 node 
+5 6 arcfore
+5 10 arcfore
+(686) 6 node 
+6 7 arcfore
+(687) 7 node 
+7 8 arcfore
+7 9 arcfore
+(688) 8 node 
+8 9 arcfore
+(689) 9 node 
+9 10 arcfore
+(694) 10 node 
+10 11 arcfore
+(695) 11 node 
+
+showpage
+% Flow graph for function rd_break
+/Helvetica-Narrow findfont fontsize scalefont setfont
+% move away from margins
+20 40 translate
+1 1 scale
+/numnodes 11 def    % number of nodes
+(698) 1 node 
+1 2 arcfore
+(701) 2 node 
+2 3 arcfore
+2 4 arcfore
+(702) 3 node 
+3 11 arcfore
+(703) 4 node 
+4 5 arcfore
+(706) 5 node 
+5 6 arcfore
+5 10 arcfore
+(707) 6 node 
+6 7 arcfore
+(708) 7 node 
+7 8 arcfore
+7 9 arcfore
+(709) 8 node 
+8 9 arcfore
+(710) 9 node 
+9 10 arcfore
+(715) 10 node 
+10 11 arcfore
+(716) 11 node 
+
+showpage
+% Flow graph for function rd_continue
+/Helvetica-Narrow findfont fontsize scalefont setfont
+% move away from margins
+20 40 translate
+1 1 scale
+/numnodes 11 def    % number of nodes
+(719) 1 node 
+1 2 arcfore
+(722) 2 node 
+2 3 arcfore
+2 4 arcfore
+(723) 3 node 
+3 11 arcfore
+(724) 4 node 
+4 5 arcfore
+(727) 5 node 
+5 6 arcfore
+5 10 arcfore
+(728) 6 node 
+6 7 arcfore
+(729) 7 node 
+7 8 arcfore
+7 9 arcfore
+(730) 8 node 
+8 9 arcfore
+(731) 9 node 
+9 10 arcfore
+(736) 10 node 
+10 11 arcfore
+(737) 11 node 
+
+showpage
+% Flow graph for function cyclo
+/Helvetica-Narrow findfont fontsize scalefont setfont
+% move away from margins
+20 40 translate
+1 1 scale
+/numnodes 6 def    % number of nodes
+(742) 1 node 
+1 2 arcfore
+(747) 2 node 
+2 3 arcfore
+2 4 arcfore
+(747) 3 node 
+3 4 arcfore
+(749) 4 node 
+4 5 arcfore
+4 6 arcfore
+(749) 5 node 
+5 6 arcfore
+(750) 6 node 
+
+showpage
+% Flow graph for function tokenise
+/Helvetica-Narrow findfont fontsize scalefont setfont
+% move away from margins
+20 40 translate
+1 1 scale
+/numnodes 40 def    % number of nodes
+(755) 1 node 
+1 2 arcfore
+(761) 2 node 
+2 3 arcfore
+2 40 arcfore
+(762) 3 node 
+3 4 arcfore
+(764) 4 node 
+4 5 arcfore
+4 6 arcfore
+(764) 5 node 
+5 6 arcfore
+(768) 6 node 
+6 7 arcfore
+6 9 arcfore
+(769) 7 node 
+7 8 arcfore
+(771) 8 node 
+2 8 arcback
+(773) 9 node 
+9 10 arcfore
+9 14 arcfore
+(773) 10 node 
+10 11 arcfore
+(774) 11 node 
+11 12 arcfore
+11 13 arcfore
+(774) 12 node 
+2 12 arcback
+(774) 13 node 
+13 23 arcfore
+(775) 14 node 
+14 15 arcfore
+(775) 15 node 
+15 16 arcfore
+15 19 arcfore
+(776) 16 node 
+16 17 arcfore
+(778) 17 node 
+2 17 arcback
+(779) 18 node 
+18 23 arcfore
+(780) 19 node 
+19 20 arcfore
+(780) 20 node 
+20 21 arcfore
+20 23 arcfore
+(780) 21 node 
+21 22 arcfore
+(780) 22 node 
+2 22 arcback
+(781) 23 node 
+23 24 arcfore
+23 26 arcfore
+(781) 24 node 
+24 25 arcfore
+(782) 25 node 
+2 25 arcback
+(783) 26 node 
+26 27 arcfore
+(784) 27 node 
+27 28 arcfore
+27 29 arcfore
+(785) 28 node 
+28 29 arcfore
+(789) 29 node 
+29 30 arcfore
+29 32 arcfore
+(790) 30 node 
+30 31 arcfore
+(793) 31 node 
+31 33 arcfore
+(794) 32 node 
+32 33 arcfore
+(799) 33 node 
+33 34 arcfore
+33 35 arcfore
+(799) 34 node 
+34 35 arcfore
+(801) 35 node 
+35 36 arcfore
+35 37 arcfore
+(802) 36 node 
+36 37 arcfore
+(806) 37 node 
+37 38 arcfore
+37 39 arcfore
+(807) 38 node 
+38 40 arcfore
+(808) 39 node 
+2 39 arcback
+(809) 40 node 
+
+showpage
+% Flow graph for function pretty_token
+/Helvetica-Narrow findfont fontsize scalefont setfont
+% move away from margins
+20 40 translate
+1 1 scale
+/numnodes 52 def    % number of nodes
+(813) 1 node 
+1 2 arcfore
+(814) 2 node 
+2 3 arcfore
+2 5 arcfore
+2 7 arcfore
+2 9 arcfore
+2 11 arcfore
+2 13 arcfore
+2 15 arcfore
+2 17 arcfore
+2 19 arcfore
+2 21 arcfore
+2 23 arcfore
+2 25 arcfore
+2 27 arcfore
+2 29 arcfore
+2 31 arcfore
+2 33 arcfore
+2 36 arcfore
+2 35 arcfore
+2 38 arcfore
+2 40 arcfore
+2 42 arcfore
+2 44 arcfore
+2 46 arcfore
+2 48 arcfore
+2 50 arcfore
+(816) 3 node 
+3 4 arcfore
+(816) 4 node 
+4 52 arcfore
+(817) 5 node 
+5 6 arcfore
+(817) 6 node 
+6 52 arcfore
+(818) 7 node 
+7 8 arcfore
+(818) 8 node 
+8 52 arcfore
+(819) 9 node 
+9 10 arcfore
+(819) 10 node 
+10 52 arcfore
+(820) 11 node 
+11 12 arcfore
+(820) 12 node 
+12 52 arcfore
+(821) 13 node 
+13 14 arcfore
+(821) 14 node 
+14 52 arcfore
+(822) 15 node 
+15 16 arcfore
+(822) 16 node 
+16 52 arcfore
+(823) 17 node 
+17 18 arcfore
+(823) 18 node 
+18 52 arcfore
+(824) 19 node 
+19 20 arcfore
+(824) 20 node 
+20 52 arcfore
+(825) 21 node 
+21 22 arcfore
+(825) 22 node 
+22 52 arcfore
+(826) 23 node 
+23 24 arcfore
+(826) 24 node 
+24 52 arcfore
+(827) 25 node 
+25 26 arcfore
+(827) 26 node 
+26 52 arcfore
+(828) 27 node 
+27 28 arcfore
+(828) 28 node 
+28 52 arcfore
+(829) 29 node 
+29 30 arcfore
+(829) 30 node 
+30 52 arcfore
+(830) 31 node 
+31 32 arcfore
+(830) 32 node 
+32 52 arcfore
+(831) 33 node 
+33 34 arcfore
+(831) 34 node 
+34 52 arcfore
+(832) 35 node 
+35 36 arcfore
+(833) 36 node 
+36 37 arcfore
+(833) 37 node 
+37 52 arcfore
+(834) 38 node 
+38 39 arcfore
+(834) 39 node 
+39 52 arcfore
+(835) 40 node 
+40 41 arcfore
+(835) 41 node 
+41 52 arcfore
+(836) 42 node 
+42 43 arcfore
+(836) 43 node 
+43 52 arcfore
+(837) 44 node 
+44 45 arcfore
+(837) 45 node 
+45 52 arcfore
+(838) 46 node 
+46 47 arcfore
+(838) 47 node 
+47 52 arcfore
+(839) 48 node 
+48 49 arcfore
+(839) 49 node 
+49 52 arcfore
+(840) 50 node 
+50 51 arcfore
+(840) 51 node 
+51 52 arcfore
+(842) 52 node 
+
+showpage
+% Flow graph for function print_token
+/Helvetica-Narrow findfont fontsize scalefont setfont
+% move away from margins
+20 40 translate
+1 1 scale
+/numnodes 4 def    % number of nodes
+(847) 1 node 
+1 2 arcfore
+(850) 2 node 
+2 4 arcfore
+(879) 3 node 
+3 4 arcfore
+(881) 4 node 
+
+showpage
+% Flow graph for function print_tokens
+/Helvetica-Narrow findfont fontsize scalefont setfont
+% move away from margins
+20 40 translate
+1 1 scale
+/numnodes 19 def    % number of nodes
+(886) 1 node 
+1 2 arcfore
+(888) 2 node 
+2 3 arcfore
+2 18 arcfore
+(888) 3 node 
+3 4 arcfore
+(890) 4 node 
+4 5 arcfore
+4 6 arcfore
+(890) 5 node 
+2 5 arcback
+(891) 6 node 
+6 7 arcfore
+6 12 arcfore
+(892) 7 node 
+7 8 arcfore
+(896) 8 node 
+8 9 arcfore
+8 11 arcfore
+(896) 9 node 
+9 10 arcfore
+(897) 10 node 
+8 10 arcback
+(898) 11 node 
+11 12 arcfore
+(899) 12 node 
+12 13 arcfore
+(900) 13 node 
+13 14 arcfore
+13 15 arcfore
+(901) 14 node 
+14 15 arcfore
+(902) 15 node 
+15 16 arcfore
+15 17 arcfore
+(903) 16 node 
+16 17 arcfore
+(904) 17 node 
+2 17 arcback
+(905) 18 node 
+18 19 arcfore
+(906) 19 node 
+
+showpage
+% Flow graph for function print_funcs
+/Helvetica-Narrow findfont fontsize scalefont setfont
+% move away from margins
+20 40 translate
+1 1 scale
+/numnodes 23 def    % number of nodes
+(911) 1 node 
+1 2 arcfore
+(913) 2 node 
+2 3 arcfore
+2 23 arcfore
+(913) 3 node 
+3 4 arcfore
+(917) 4 node 
+4 5 arcfore
+4 22 arcfore
+(917) 5 node 
+5 6 arcfore
+(920) 6 node 
+6 7 arcfore
+6 9 arcfore
+(920) 7 node 
+7 8 arcfore
+(921) 8 node 
+6 8 arcback
+(922) 9 node 
+9 10 arcfore
+(923) 10 node 
+10 11 arcfore
+10 12 arcfore
+(924) 11 node 
+11 12 arcfore
+(925) 12 node 
+12 13 arcfore
+12 14 arcfore
+(926) 13 node 
+13 14 arcfore
+(927) 14 node 
+14 15 arcfore
+(930) 15 node 
+15 16 arcfore
+15 17 arcfore
+(931) 16 node 
+16 17 arcfore
+(932) 17 node 
+17 18 arcfore
+17 20 arcfore
+(932) 18 node 
+18 19 arcfore
+(933) 19 node 
+17 19 arcback
+(934) 20 node 
+20 21 arcfore
+(935) 21 node 
+4 21 arcback
+(936) 22 node 
+2 22 arcback
+(937) 23 node 
+
+showpage
+% Flow graph for function print_complexity
+/Helvetica-Narrow findfont fontsize scalefont setfont
+% move away from margins
+20 40 translate
+1 1 scale
+/numnodes 18 def    % number of nodes
+(941) 1 node 
+1 2 arcfore
+(942) 2 node 
+2 3 arcfore
+2 4 arcfore
+(942) 3 node 
+3 4 arcfore
+(948) 4 node 
+4 5 arcfore
+(950) 5 node 
+5 6 arcfore
+5 18 arcfore
+(950) 6 node 
+6 7 arcfore
+(952) 7 node 
+7 8 arcfore
+7 10 arcfore
+(952) 8 node 
+8 9 arcfore
+(953) 9 node 
+5 9 arcback
+(954) 10 node 
+10 11 arcfore
+(956) 11 node 
+11 12 arcfore
+11 16 arcfore
+(956) 12 node 
+12 13 arcfore
+(961) 13 node 
+13 14 arcfore
+13 15 arcfore
+(961) 14 node 
+14 15 arcfore
+(964) 15 node 
+11 15 arcback
+(965) 16 node 
+16 17 arcfore
+(966) 17 node 
+5 17 arcback
+(967) 18 node 
+
+showpage
+% Flow graph for function print_func_list
+/Helvetica-Narrow findfont fontsize scalefont setfont
+% move away from margins
+20 40 translate
+1 1 scale
+/numnodes 25 def    % number of nodes
+(971) 1 node 
+1 2 arcfore
+(972) 2 node 
+2 3 arcfore
+2 4 arcfore
+(972) 3 node 
+3 4 arcfore
+(977) 4 node 
+4 5 arcfore
+(978) 5 node 
+5 6 arcfore
+5 25 arcfore
+(978) 6 node 
+6 7 arcfore
+(980) 7 node 
+7 8 arcfore
+7 10 arcfore
+(980) 8 node 
+8 9 arcfore
+(981) 9 node 
+5 9 arcback
+(982) 10 node 
+10 11 arcfore
+(983) 11 node 
+11 12 arcfore
+11 24 arcfore
+(984) 12 node 
+12 13 arcfore
+12 24 arcfore
+(984) 13 node 
+13 14 arcfore
+(985) 14 node 
+14 15 arcfore
+14 24 arcfore
+(986) 15 node 
+15 16 arcfore
+(988) 16 node 
+16 17 arcfore
+16 21 arcfore
+(988) 17 node 
+17 18 arcfore
+(989) 18 node 
+18 19 arcfore
+18 21 arcfore
+(989) 19 node 
+19 20 arcfore
+(991) 20 node 
+16 20 arcback
+(992) 21 node 
+21 22 arcfore
+21 23 arcfore
+(993) 22 node 
+22 23 arcfore
+(994) 23 node 
+12 23 arcback
+(995) 24 node 
+5 24 arcback
+(996) 25 node 
+
+showpage
+% Flow graph for function display_arc
+/Helvetica-Narrow findfont fontsize scalefont setfont
+% move away from margins
+20 40 translate
+1 1 scale
+/numnodes 8 def    % number of nodes
+(1000) 1 node 
+1 2 arcfore
+(1001) 2 node 
+2 3 arcfore
+2 4 arcfore
+(1002) 3 node 
+3 8 arcfore
+(1003) 4 node 
+4 5 arcfore
+(1003) 5 node 
+5 6 arcfore
+5 7 arcfore
+(1004) 6 node 
+6 8 arcfore
+(1005) 7 node 
+7 8 arcfore
+(1006) 8 node 
+
+showpage
+% Flow graph for function display
+/Helvetica-Narrow findfont fontsize scalefont setfont
+% move away from margins
+20 40 translate
+1 1 scale
+/numnodes 21 def    % number of nodes
+(1010) 1 node 
+1 2 arcfore
+(1013) 2 node 
+2 3 arcfore
+2 6 arcfore
+(1013) 3 node 
+3 4 arcfore
+(1014) 4 node 
+4 5 arcfore
+4 6 arcfore
+(1015) 5 node 
+2 5 arcback
+(1017) 6 node 
+6 7 arcfore
+(1018) 7 node 
+7 8 arcfore
+7 9 arcfore
+(1018) 8 node 
+8 9 arcfore
+(1020) 9 node 
+9 10 arcfore
+9 20 arcfore
+(1020) 10 node 
+10 11 arcfore
+(1022) 11 node 
+11 12 arcfore
+11 13 arcfore
+(1023) 12 node 
+9 12 arcback
+(1025) 13 node 
+13 14 arcfore
+(1027) 14 node 
+14 15 arcfore
+14 16 arcfore
+(1028) 15 node 
+15 16 arcfore
+(1033) 16 node 
+16 17 arcfore
+16 19 arcfore
+(1033) 17 node 
+17 18 arcfore
+(1037) 18 node 
+16 18 arcback
+(1038) 19 node 
+9 19 arcback
+(1039) 20 node 
+20 21 arcfore
+(1040) 21 node 
+
+showpage
+% Flow graph for function opt_display
+/Helvetica-Narrow findfont fontsize scalefont setfont
+% move away from margins
+20 40 translate
+1 1 scale
+/numnodes 25 def    % number of nodes
+(1044) 1 node 
+1 2 arcfore
+(1047) 2 node 
+2 3 arcfore
+2 19 arcfore
+(1047) 3 node 
+3 4 arcfore
+(1049) 4 node 
+4 5 arcfore
+4 6 arcfore
+(1050) 5 node 
+2 5 arcback
+(1051) 6 node 
+6 7 arcfore
+(1052) 7 node 
+7 8 arcfore
+7 13 arcfore
+(1052) 8 node 
+8 9 arcfore
+(1053) 9 node 
+9 10 arcfore
+9 13 arcfore
+(1053) 10 node 
+10 11 arcfore
+(1054) 11 node 
+11 12 arcfore
+11 13 arcfore
+(1055) 12 node 
+9 12 arcback
+7 12 arcback
+(1056) 13 node 
+13 14 arcfore
+13 16 arcfore
+(1057) 14 node 
+14 15 arcfore
+(1060) 15 node 
+2 15 arcback
+(1062) 16 node 
+16 17 arcfore
+16 18 arcfore
+(1062) 17 node 
+17 18 arcfore
+(1064) 18 node 
+2 18 arcback
+(1066) 19 node 
+19 20 arcfore
+(1068) 20 node 
+20 21 arcfore
+20 25 arcfore
+(1068) 21 node 
+21 22 arcfore
+(1069) 22 node 
+22 23 arcfore
+22 25 arcfore
+(1070) 23 node 
+23 24 arcfore
+(1073) 24 node 
+20 24 arcback
+(1074) 25 node 
+
+showpage
+% Flow graph for function print_ps_header
+/Helvetica-Narrow findfont fontsize scalefont setfont
+% move away from margins
+20 40 translate
+1 1 scale
+/numnodes 2 def    % number of nodes
+(1078) 1 node 
+1 2 arcfore
+(1097) 2 node 
+
+showpage
+% Flow graph for function print_ps_trailer
+/Helvetica-Narrow findfont fontsize scalefont setfont
+% move away from margins
+20 40 translate
+1 1 scale
+/numnodes 2 def    % number of nodes
+(1101) 1 node 
+1 2 arcfore
+(1103) 2 node 
+
+showpage
+% Flow graph for function print_ps_pageheader
+/Helvetica-Narrow findfont fontsize scalefont setfont
+% move away from margins
+20 40 translate
+1 1 scale
+/numnodes 2 def    % number of nodes
+(1107) 1 node 
+1 2 arcfore
+(1113) 2 node 
+
+showpage
+% Flow graph for function print_ps_pagetrailer
+/Helvetica-Narrow findfont fontsize scalefont setfont
+% move away from margins
+20 40 translate
+1 1 scale
+/numnodes 2 def    % number of nodes
+(1117) 1 node 
+1 2 arcfore
+(1119) 2 node 
+
+showpage
+% Flow graph for function usage
+/Helvetica-Narrow findfont fontsize scalefont setfont
+% move away from margins
+20 40 translate
+1 1 scale
+/numnodes 2 def    % number of nodes
+(1122) 1 node 
+1 2 arcfore
+(1142) 2 node 
+
+showpage
+% Flow graph for function main
+/Helvetica-Narrow findfont fontsize scalefont setfont
+% move away from margins
+20 40 translate
+1 1 scale
+/numnodes 45 def    % number of nodes
+(1146) 1 node 
+1 2 arcfore
+(1151) 2 node 
+2 3 arcfore
+2 16 arcfore
+(1152) 3 node 
+3 14 arcfore
+(1154) 4 node 
+4 16 arcfore
+(1155) 5 node 
+5 16 arcfore
+(1156) 6 node 
+6 16 arcfore
+(1157) 7 node 
+7 16 arcfore
+(1158) 8 node 
+8 16 arcfore
+(1159) 9 node 
+9 16 arcfore
+(1160) 10 node 
+10 16 arcfore
+(1161) 11 node 
+11 16 arcfore
+(1162) 12 node 
+12 16 arcfore
+(1163) 13 node 
+13 16 arcfore
+(1164) 14 node 
+14 15 arcfore
+(1165) 15 node 
+2 15 arcback
+(1167) 16 node 
+16 17 arcfore
+16 18 arcfore
+(1167) 17 node 
+17 18 arcfore
+(1172) 18 node 
+18 19 arcfore
+18 20 arcfore
+(1173) 19 node 
+19 20 arcfore
+(1177) 20 node 
+20 21 arcfore
+(1178) 21 node 
+21 22 arcfore
+21 23 arcfore
+(1178) 22 node 
+22 23 arcfore
+(1179) 23 node 
+23 24 arcfore
+(1180) 24 node 
+24 25 arcfore
+24 26 arcfore
+(1180) 25 node 
+25 26 arcfore
+(1181) 26 node 
+26 27 arcfore
+26 29 arcfore
+(1181) 27 node 
+27 28 arcfore
+(1181) 28 node 
+28 45 arcfore
+(1182) 29 node 
+29 30 arcfore
+29 31 arcfore
+(1183) 30 node 
+30 31 arcfore
+(1188) 31 node 
+31 32 arcfore
+31 33 arcfore
+(1189) 32 node 
+32 33 arcfore
+(1195) 33 node 
+33 34 arcfore
+33 35 arcfore
+(1195) 34 node 
+34 35 arcfore
+(1201) 35 node 
+35 36 arcfore
+(1203) 36 node 
+36 37 arcfore
+36 43 arcfore
+(1203) 37 node 
+37 38 arcfore
+(1205) 38 node 
+38 39 arcfore
+38 41 arcfore
+(1205) 39 node 
+39 40 arcfore
+(1206) 40 node 
+36 40 arcback
+(1208) 41 node 
+41 42 arcfore
+(1212) 42 node 
+36 42 arcback
+(1214) 43 node 
+43 44 arcfore
+(1215) 44 node 
+44 45 arcfore
+(1216) 45 node 
+
+showpage

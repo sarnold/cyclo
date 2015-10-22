@@ -1,0 +1,198 @@
+
+
+
+cyclo(1)                                                 cyclo(1)
+
+
+NNAAMMEE
+       mcstrip, cyclo - tools for analysing cyclomatic complexity
+
+SSYYNNOOPPSSIISS
+       mmccssttrriipp [-l] [-c] [-r] [-a] [inputfile]
+       ccyycclloo [-l] [-t] [-f|-F] [-n func#] [-p] [-s scale] [-c]
+             [-d] [-i]
+
+DDEESSCCRRIIPPTTIIOONN
+       These two tools are used to measure  the  cyclomatic  com-
+       plexity  of  a  piece of ANSI C or C++ code.  A postscript
+       flowgraph of the functions can also be produced.
+
+CCOOMMMMAANNDDSS
+       mmccssttrriipp
+       This command removes comments, string and  character  con-
+       stants  from  the input file, or standard input if none is
+       specified.  If any of the following options are given,  it
+       will give details of the file instead.
+
+          [-l] print number of lines in file
+          [-c] print number of lines that contain comments
+          [-r] print ratio of lines against lines with comments
+          [-a] print all of the above
+
+       ccyycclloo
+       This  command  takes as its standard input a file that has
+       had the comments, string and character  constants  removed
+       (by  _m_c_s_t_r_i_p ).  It will then produce either flowcharts or
+       the cyclomatic complexity number of one or more  files  in
+       the input.
+
+       Information
+          [-l] prints results of tokenisation
+          [-t] prints results of flow generation
+       Functions
+          [-i] ignores functions declared within a
+               struct/class/union
+          [-n func#] limits output of -p,-f,-F,-c to the given
+                     function  number, rather than the default of
+                     all functions.
+          [-f] prints function name(s)
+          [-F] prints functions called by each source function
+          [-c] print cyclomatic complexity of function(s)
+          [-p] produce postscript flow graph
+          [-s scale] scales postscript output (float)
+          [-d] prints function names to postscript standard
+               output
+
+RREETTUURRNN CCOODDEESS
+       mmccssttrriipp always returns zero.  ccyycclloo  returns  one  in  the
+       event of an error, otherwise it returns zero.
+
+
+
+
+
+tools                      Programmer's                         1
+
+
+
+
+
+cyclo(1)                                                 cyclo(1)
+
+
+EEXXAAMMPPLLEESS
+       IInnffoorrmmaattiioonn aabboouutt ffiillee
+          $ _m_c_s_t_r_i_p -_a _m_a_i_n._C
+          63 comment lines
+          1199 lines
+          5 % comments to lines ratio
+       FFuunnccttiioonn nnaammeess
+          $ _m_s_t_r_i_p _m_a_i_n._C | _c_y_c_l_o -_f
+          Token::Token
+          Token::~Token
+          print_funcs
+          display_arc
+          display
+       FFuunnccttiioonn ccaallllss
+          $ _m_c_s_t_r_i_p _m_a_i_n._C | _c_y_c_l_o -_F -_n _3
+          print_funcs
+              setw
+              setiosflags
+              print_token
+              resetiosflags
+       FFllooww cchhaarrttss
+          $ _m_c_s_t_r_i_p _m_a_i_n._C | _c_y_c_l_o -_p -_n _3 > _f_l_o_w._p_s
+          $ _g_s _f_l_o_w._p_s
+
+MMOORREE DDEETTAAIILLEEDD IINNFFOORRMMAATTIIOONN
+       The  cyclomatic  complexity  measure  counts the number of
+       decisions made within a piece of  code.   This  number  is
+       equal  to the number of linearly independent paths through
+       the code.  Its main application is  in  establishing  test
+       cases.   Be  aware that the measure may not be useful.  It
+       is recommended that further reading is done  before  using
+       it.
+
+       The following papers contain further relevant information:
+
+          'A Complexity Measure' McCabe T.J.,  IEEE  Transactions
+          on  Software Engineering vol SE-2, #4 1976, pp 308-320.
+
+          'A Critique of Cyclomatic Complexity as a Software Met-
+          ric'  Shepperd  M., Software Engineering Journal, March
+          1988, pp 30-36.
+
+          'Software Defect Prevention Using  McCabe's  Complexity
+          Metric' Ward W.T., Hewlett-Packard Journal, April 1989,
+          pp 64-69.
+
+
+SSEEEE AALLSSOO
+       cflow(1) wc(1)
+
+LLIIMMIITTAATTIIOONNSS
+       Only the ANSI C method of declaring  functions  is  recog-
+       nised.
+
+
+
+
+tools                      Programmer's                         2
+
+
+
+
+
+cyclo(1)                                                 cyclo(1)
+
+
+       Constructors  that  have  an  initialiser  list have their
+       names incorrectly detected.
+
+       Lexical elements that span more  than  one  line  are  not
+       recognised.  This includes strings terminating with a con-
+       tinuation slash, struct and the following tag,  and  func-
+       tion names and the following opening parenthesis.
+
+CCOOPPYYRRIIGGHHTT
+       (c) 1993 Roger Binns
+
+       These tools were produced by Roger Binns for a fourth year
+       project as part of a computer science degree, for the Com-
+       puter  Science  department,  Brunel  University, Uxbridge,
+       Middlesex UB8 3PH, United Kingdom.
+
+       This software is  provided  in  good  faith,  having  been
+       developed  by  Brunel University students as part of their
+       normal course work.  It should not be assumed that  Brunel
+       has  any  rights  of  ownership, and the University cannot
+       accept any liability for its subsequent use.  It is a con-
+       dition  of  any such use that the user idemnifies the Uni-
+       versity against any claim (including third  party  claims)
+       arising therefrom.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+tools                      Programmer's                         3
+
+

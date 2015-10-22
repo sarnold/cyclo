@@ -1,0 +1,15 @@
+#!/bin/sh
+#
+# usage: mccabe <name of C code input file>
+#
+/bin/rm -f $2.preproc $2.stripped
+#
+cc -E $1 > $1.preproc
+./mcstrip $1.preproc > $1.stripped
+# cat $1.stripped | cyclo -l
+# cat $1.stripped | cyclo -t
+# cat $1.stripped | cyclo -f
+# cat $1.stripped | cyclo -F
+cat $1.stripped | ./cyclo -c
+# cat $1.stripped | cyclo -c -n 5
+/bin/rm -f $1.preproc $1.stripped

@@ -16,7 +16,7 @@ char *strerror(err)
 {
 
   extern int sys_nerr;
-  extern char *sys_errlist[];
+  extern const char *const sys_errlist[];
 
   static char errmsg[256];
 
@@ -35,7 +35,7 @@ strerror(err)
         int err;
 {
         extern int sys_nerr;
-        extern char *sys_errlist[];
+        extern const char *const sys_errlist[];
 
         static char errmsg[32];
 

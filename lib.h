@@ -20,7 +20,7 @@ extern "C"
 {
 #endif
 
-char *strndup(char *, int);
+char *my_strndup(char *, int);
 char *getfunc(char *, int);
 char *getarg(char *, int, char *);
 char *getlabel(char *, int);

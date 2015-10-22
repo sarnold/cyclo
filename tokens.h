@@ -44,11 +44,9 @@ enum TOKENS
 	ELSEIF
 };
 
-extern union
+extern union YY_LVAL
 {
   char *yy_str;
-}
-
-yylval;
+} yylval;
 
 extern int atelparen;

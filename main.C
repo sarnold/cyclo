@@ -15,11 +15,14 @@ third party claims) arising therefrom.
 
 */
 
-#include <iostream.h>
+#include <iostream>
 #include <stdio.h>
-#include <iomanip.h>
+#include <iomanip>
 #include <stdlib.h>
 #include <string.h>
+#include <getopt.h>
+
+using namespace std;
 
 #define extern			/* instantiate lexer variables */
 #include "tokens.h"
@@ -239,7 +242,7 @@ int rd_scudefinition(int parse, int startat, Info &jumps)
   if(end==-1) return end;
 
   if(end>=tokenlist.Count() || tokenlist[end].type!=ENDSCOPE)
-    PARSEFAIL("No terminating '}' found", startat);
+      PARSEFAIL((char *)"No terminating '}' found", startat);
 
   scustack.Pop();
 
@@ -254,10 +257,10 @@ int rd_topscope(int parse, int startat, Info &jumps)
 
   check(rd_buffer(parse, startat+1, jumps));
   if(end==-1 || end>=tokenlist.Count()) 
-    PARSEFAIL("Invalid scope contents", startat);
+    PARSEFAIL((char *)"Invalid scope contents", startat);
 
   if(tokenlist[end].type!=ENDSCOPE)
-    PARSEFAIL("No terminating '}' found", startat);
+    PARSEFAIL((char *)"No terminating '}' found", startat);
 
   return end+1;
 }
@@ -301,10 +304,10 @@ int rd_functiondefinition(int parse, int startat, Info &jumps)
   check(rd_statements(0, startat+2, jumps));
 again:
   if(end==-1)
-    PARSEFAIL("Unrecognised function body", startat);
+    PARSEFAIL((char *)"Unrecognised function body", startat);
 
   if(end>=tokenlist.Count() || tokenlist[end].type!=ENDSCOPE)
-    PARSEFAIL("Function body has no terminating '}'", startat);
+    PARSEFAIL((char *)"Function body has no terminating '}'", startat);
 
   if(scustack.Size() && ignoreinline)
     parse=0;
@@ -410,7 +413,7 @@ int rd_statement(int parse, int startat, Info &jumps)
         AddPlace(jumps, startat);
       return startat+1;
     default:
-      PARSEFAIL("Unexpected token", startat);
+      PARSEFAIL((char *)"Unexpected token", startat);
     }
     startat++;
   }
@@ -428,19 +431,19 @@ int rd_scope(int parse, int startat, Info &jumps)
     AddPlace(jumps, startat);
   check(rd_statements(0, startat+1, jumps));
   if(end==-1 || end>=tokenlist.Count() || tokenlist[end].type!=ENDSCOPE)
-    PARSEFAIL("Scope has no closing '}'", startat);
+    PARSEFAIL((char *)"Scope has no closing '}'", startat);
   if(parse)
     {
       check(rd_statements(parse, startat+1, jumps));
       if(end==-1 || end>=tokenlist.Count() || tokenlist[end].type!=ENDSCOPE)
-         PARSEFAIL("Scope has no closing '}'", startat);
+         PARSEFAIL((char *)"Scope has no closing '}'", startat);
       AddPlace(jumps, end);
     }
   return end+1;
 }
 
 /* Ensures that there was a following statement */
-#define HASSTATEMENT(x) { if(end==-1 || end>=tokenlist.Count()) PARSEFAIL("'" x "' has no following ';' or '{'..'}'", startat); }
+#define HASSTATEMENT(x) { if(end==-1 || end>=tokenlist.Count()) PARSEFAIL((char *)"'" x "' has no following ';' or '{'..'}'", startat); }
 
 int rd_while(int parse, int startat, Info &jumps)
 {
@@ -620,7 +623,7 @@ again:
           AddToPlace(jumps, startat, a);
 
       if(a<jumps.function->end)
-        PARSEFAIL("Label not found", startat);
+        PARSEFAIL((char *)"Label not found", startat);
       check(rd_statement(parse, startat+1, jumps));
       parse=0;
       goto again;
@@ -673,7 +676,7 @@ int rd_do(int parse, int startat, Info &jumps)
   HASSTATEMENT("do");
 /*
   if(tokenlist[end].type!=WHILE)
-    PARSEFAIL("Expecting 'while' after 'do'", end);
+    PARSEFAIL((char *)"Expecting 'while' after 'do'", end);
 */
   int whileat=end;
   check(rd_statement(0, end+1, jumps));
@@ -712,7 +715,7 @@ int rd_default(int parse, int startat, Info &jumps)
     {
 /*
       if(jumps.iswitch==-1)
-        PARSEFAIL("No enclosing switch statement", startat);
+        PARSEFAIL((char *)"No enclosing switch statement", startat);
 */
       AddPlace(jumps, startat);
       check(rd_statement(parse, startat+1, jumps));
@@ -736,7 +739,7 @@ int rd_case(int parse, int startat, Info &jumps)
     {
 /*
       if(jumps.iswitch==-1)
-        PARSEFAIL("No enclosing switch statement", startat);
+        PARSEFAIL((char *)"No enclosing switch statement", startat);
 */
       AddPlace(jumps, startat);
       check(rd_statement(parse, startat+1, jumps));
@@ -759,7 +762,7 @@ int rd_break(int parse, int startat, Info &jumps)
     {
 /*
       if(jumps.ibreak==-1)
-        PARSEFAIL("No enclosing loop to break from", startat);
+        PARSEFAIL((char *)"No enclosing loop to break from", startat);
 */
       AddPlace(jumps, startat,0);
       AddToPlace(jumps, startat, jumps.ibreak);
@@ -782,7 +785,7 @@ int rd_continue(int parse, int startat, Info &jumps)
     {
 /*
       if(jumps.icontinue==-1)
-        PARSEFAIL("No enclosing loop to continue from", startat);
+        PARSEFAIL((char *)"No enclosing loop to continue from", startat);
 */
       AddPlace(jumps, startat,0);
       AddToPlace(jumps, startat, jumps.icontinue);
@@ -801,7 +804,7 @@ cyclo (void)
 
   x=rd_buffer(1, 0, i);
   if(x>=0 && x<tokenlist.Count())
-    parsefail("Unexpected token at top level", x);
+    parsefail((char *)"Unexpected token at top level", x);
   if(x!=tokenlist.Count()) exit(1);
 }
 

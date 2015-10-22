@@ -16,14 +16,16 @@ third party claims) arising therefrom.
 */
 
 #include <stdlib.h>
-#include <iostream.h>
+#include <iostream>
 #include <string.h>
 #include "lib.h"
+
+using namespace std;
 
 extern "C" // called from 'C' scan.c
 {
 
-char *strndup(char *str, int n)
+char *my_strndup(char *str, int n)
 {
 	char *t, *t2;
 	t2=t=(char *)malloc(n+1*sizeof(char));
@@ -42,7 +44,7 @@ char *strndup(char *str, int n)
 
 char *getfunc(char *str, int n)
 {
-	char *t=strndup(str, n-1); /* leave off terminating parenthesis */
+	char *t=my_strndup(str, n-1); /* leave off terminating parenthesis */
 	char *t2=t;
 
 	while(*t)
@@ -56,7 +58,7 @@ char *getfunc(char *str, int n)
 
 char *getarg(char *str, int n, char *keyword)
 {
-	char *t=strndup(str, n);
+	char *t=my_strndup(str, n);
 	char *t2=t;
 
 	strcpy(t, t+strlen(keyword)); /* remove keyword */
@@ -72,7 +74,7 @@ char *getarg(char *str, int n, char *keyword)
 
 char *getlabel(char *str, int n)
 {
-	char *t=strndup(str, n-1); /* remove trailing ':' */
+	char *t=my_strndup(str, n-1); /* remove trailing ':' */
 	char *t2=t;
 
 	while(*t)

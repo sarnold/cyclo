@@ -39,6 +39,8 @@ space	[\t ]
 ops	[\<\>\!\%\^\&\*\-\+\=\[\]\~\,\.\/]
 white	{space}*
 
+%option noyywrap
+
 %%
 
 "template"{white}"\<".*"\>"	;

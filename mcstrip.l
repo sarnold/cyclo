@@ -102,6 +102,8 @@ int main(int argc, char *argv[])
 }
 %}
 
+%option noyywrap
+
 %%
 
 ^#.*$			;

@@ -1,6 +1,7 @@
+Cyclo - the cyclomatic complexity tool for C
+============================================
 
 Original version is copyright (c) 1993 Roger Binns
-
 
 These tools were produced by Roger Binns for a fourth year project as part of
 a computer science degree, for the Computer Science department, Brunel
@@ -17,39 +18,33 @@ This software is provided 'as is'.  If you have any doubts that could lead
 to legal matters, then don't use it.
 
 
-To compile:
+To compile::
 
     IN THE REAL WORLD
-
+  
         make
-
+  
     AT BRUNEL 
-
+  
           (read the top of the file 'Makefile.brunel')
         use gcc-2.3.3
 		use studentsoft
         make -f Makefile.brunel
 
-For instructions on use, and other info:
+For instructions on use, and other info::
 
         nroff -man cyclo.1 | more
 
-
-------
-
+History and Authors
+-------------------
 
 Christopher Lott made the package slightly more portable sometime in 1994
 by cleaning up the Makefile and by adding .h/.c files for the strerror
 function.
 
-
-------
-
-
-Updated June 1996 by Bob Statsinger.  These changes are 
-copyright (c) 1996 1996 B.S. Software
-
-Changes made by Bob Statsinger <rstats@interbase.borland.com>:
+Updated June 1996 by Bob Statsinger.  These changes are
+copyright (c) 1996 1996 B.S. Software.  Changes made by
+Bob Statsinger <rstats@interbase.borland.com>:
 
 - In addition to C++ style function declarations
 (e.g. cname::foo()), ANSI or K&R style declarations
@@ -71,9 +66,6 @@ correctness. YMMV.
 - test-input.c is an example test file.
 
 
-------
-
-
 Updated further in August 1996 by Christopher Lott to fix some
 small glitches in the code that g++ picked up.  If my fixes
 cause further problems on other compilers, please let me know.
@@ -81,4 +73,12 @@ cause further problems on other compilers, please let me know.
 Beware the defs for getopt in main.C.  You can turn them off by
 editing the Makefile (search for NEEDGETOPTDEFS).
 
-------
+
+Updated even further and packaged for Gentoo in Sep 2013 by Stephen Arnold.
+Added flex 3.x noyywrap option in Aug 2015, and pushed to github in Oct 2015.
+
+Unlike cccc, cyclo is intended to be incorporated as a make target (using
+cpp, mcstrip, and cyclo) so you'll need to collect the output yourself.
+
+Stay tuned for some examples...
+

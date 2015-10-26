@@ -8,11 +8,10 @@ LEX = flex
 
 DBG ?= -g
 
-OPTIM	?= -O2
-LDFLAGS	= $(DBG)
-CFLAGS	= $(OPTIM) $(DBG) #-Wall
-CXXFLAGS = $(CFLAGS)
-LDLIBS	= -lstdc++ -lfl
+MYLDFLAGS	= -O2 $(LDFLAGS) $(DBG)
+MYCFLAGS	= -O2 -pipe $(CFLAGS) $(DBG)
+MYCXXFLAGS	= $(MYCFLAGS)
+LDADD		= -lstdc++ -lfl
 
 .SUFFIXES:
 .SUFFIXES: .o .c .C .l
@@ -27,12 +26,14 @@ SCNOBJS	= scan.o
 .PHONY: all
 .DEFAULT: all
 
-all: mcstrip cyclo
+PGMS	= mcstrip cyclo
+
+all: $(PGMS)
 
 mcstrip: $(MCSOBJS)
 
 cyclo: $(CYCOBJS) $(SCNOBJS)
-	$(CXX) -o $@ $(CFLAGS) $(LDFLAGS) $^ $(LDLIBS)
+	$(CXX) -o $@ $(MYCXXFLAGS) $(MYLDFLAGS) $^ $(LDADD)
 
 clean:
 	$(RM) cyclo mcstrip core *.o *~

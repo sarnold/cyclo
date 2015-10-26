@@ -32,6 +32,9 @@ LDFLAGS	= $(DBG)
 CFLAGS	= $(OPTIM) $(DBG) #-Wall
 LDLIBS	= -lstdc++ -lfl
 
+.SUFFIXES:
+.SUFFIXES: .l .c .C .o
+
 GENSRCS	= mcstrip.c scan.c
 BLDSRCS	= lib.C main.C strerror.c
 MCSOBJS	= mcstrip.o strerror.o
@@ -44,29 +47,20 @@ SCNOBJS	= scan.o
 
 all: mcstrip cyclo
 
-strerror.o: strerror.c
-	$(CC) $(CPPFLAGS) $(CFLAGS) -o $@ -c $^
-
-mcstrip: $(MCSOBJS)
-	$(CC) -o $@ $(CFLAGS) $(LDFLAGS) $^ $(LDLIBS)
-
 mcstrip.c: mcstrip.l
 	$(LEX) $(LFLAGS) $^ > $@
-
-mcstrip.o: mcstrip.c
-	$(CC) $(CPPFLAGS) $(CFLAGS) -o $@ -c $^
 
 scan.c: scan.l
 	$(LEX) $(LFLAGS) $^ > $@
 
-scan.o: scan.c
+%.o: %.c
 	$(CC) $(CPPFLAGS) $(CFLAGS) -o $@ -c $^
 
-main.o: main.C
+%.o: %.C
 	$(CXX) $(CPPFLAGS) $(CFLAGS) -o $@ -c $^
 
-lib.o: lib.C
-	$(CXX) $(CPPFLAGS) $(CFLAGS) -o $@ -c $^
+mcstrip: $(MCSOBJS)
+	$(CC) -o $@ $(CFLAGS) $(LDFLAGS) $^ $(LDLIBS)
 
 cyclo: $(CYCOBJS) $(SCNOBJS)
 	$(CXX) -o $@ $(CFLAGS) $(LDFLAGS) $^ $(LDLIBS)

@@ -15,8 +15,11 @@ CFLAGS	= $(OPTIM) $(DBG) #-Wall
 CXXFLAGS = $(CFLAGS)
 LDLIBS	= -lstdc++ -lfl
 
+.SUFFIXES:
+.SUFFIXES: .l .c .o
+
 GENSRCS	= mcstrip.c scan.c
-BLDSRCS	= lib.C main.C strerror.c test-input.c
+BLDSRCS	= lib.C main.C strerror.c
 MCSOBJS	= mcstrip.o strerror.o
 CYCOBJS	= main.o lib.o
 SCNOBJS	= scan.o

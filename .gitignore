@@ -1,3 +1,7 @@
+# binaries
+mcstrip
+cyclo
+
 # Object files
 *.o
 *.ko

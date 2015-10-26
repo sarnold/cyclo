@@ -1,0 +1,37 @@
+# New simplified makefile - Updated 2015 by Stephen L Arnold
+# Compilation configuration
+CC = gcc
+CXX = g++
+
+# we need flex to work around some limitations of certain lex versions
+LEX = flex
+
+DBG ?= -g
+
+OPTIM	?= -O2
+LFLAGS	= -t
+LDFLAGS	= $(DBG)
+CFLAGS	= $(OPTIM) $(DBG) #-Wall
+CXXFLAGS = $(CFLAGS)
+LDLIBS	= -lstdc++ -lfl
+
+GENSRCS	= mcstrip.c scan.c
+BLDSRCS	= lib.C main.C strerror.c test-input.c
+MCSOBJS	= mcstrip.o strerror.o
+CYCOBJS	= main.o lib.o
+SCNOBJS	= scan.o
+
+.INTERMEDIATE: $(GENSRCS)
+.PHONY: all
+.DEFAULT: all
+
+all: mcstrip cyclo
+
+mcstrip: $(MCSOBJS)
+
+cyclo: $(CYCOBJS) $(SCNOBJS)
+	$(CXX) -o $@ $(CFLAGS) $(LDFLAGS) $^ $(LDLIBS)
+
+clean:
+	$(RM) cyclo mcstrip core *.o *~
+

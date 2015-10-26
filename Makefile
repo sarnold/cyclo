@@ -14,56 +14,69 @@
 # Updated 1996 by R. Statsinger, C. Lott
 # Updated 2015 by Stephen L Arnold
 
+# the actual build stuff starts here
 HEADERS = tokens.h lib.h list.h stack.h
 
 # Compilation configuration
-# your C compiler must understand ANSI std C
 CC ?= gcc
-# and you'll need a C++ compiler as well
-CCPLUS ?= g++
-# flex is not absolutely required, but some versions of
-# lex run out of space while processing the input file
-LEX ?= flex
-#LEX = lex
+CXX ?= g++
+
+# we need flex to work around some limitations of certain lex versions
+LEX = flex
 
 DBG ?= -g
 
-OPTIM ?= -O2
-LEXOPTS = -t
-LDOPTS = $(LDFLAGS) $(DBG)
-MYCFLAGS = $(OPTIM) $(CFLAGS) $(DBG) #-Wall
-MYLIBS = -lstdc++ -lfl
+OPTIM	?= -O2
+LFLAGS	= -t
+LDFLAGS	= $(DBG)
+CFLAGS	= $(OPTIM) $(DBG) #-Wall
+LDLIBS	= -lstdc++ -lfl
+
+GENSRCS	= mcstrip.c scan.c
+BLDSRCS	= lib.C main.C strerror.c
+MCSOBJS	= mcstrip.o strerror.o
+CYCOBJS	= main.o lib.o
+SCNOBJS	= scan.o
+
+.INTERMEDIATE: $(GENSRCS)
+.PHONY: all
+.DEFAULT: all
 
 all: mcstrip cyclo
 
-mcstrip: mcstrip.o strerror.o
-	$(CC) $(LDOPTS) $(MYCFLAGS) -o mcstrip mcstrip.o strerror.o $(LIBS)
-
-mcstrip.o: mcstrip.l
-	$(LEX) $(LEXOPTS) mcstrip.l > mcstrip.c
-	$(CC) $(MYCFLAGS) -c mcstrip.c
-	rm mcstrip.c
-
 strerror.o: strerror.c
-	$(CC) $(MYCFLAGS) -c strerror.c
+	$(CC) $(CPPFLAGS) $(CFLAGS) -o $@ -c $^
 
-cyclo: main.o scan.o lib.o
-	$(CCPLUS) $(LDOPTS) -o $@ main.o scan.o lib.o $(MYLIBS)
+mcstrip: $(MCSOBJS)
+	$(CC) -o $@ $(CFLAGS) $(LDFLAGS) $^ $(LDLIBS)
 
-main.o: main.C $(HEADERS)
-	#$(CCPLUS) $(MYCFLAGS) -DNEEDGETOPTDEFS -c main.C
-	$(CCPLUS) $(MYCFLAGS) -c main.C
+mcstrip.c: mcstrip.l
+	$(LEX) $(LFLAGS) $^ > $@
 
-lib.o: lib.C $(HEADERS)
-	$(CCPLUS) $(MYCFLAGS) -c lib.C
+mcstrip.o: mcstrip.c
+	$(CC) $(CPPFLAGS) $(CFLAGS) -o $@ -c $^
 
-scan.o: scan.l $(HEADERS)
-	$(LEX) $(LEXOPTS) scan.l > scan.c
-	$(CC) $(MYCFLAGS) -c scan.c
-	rm scan.c
+scan.c: scan.l
+	$(LEX) $(LFLAGS) $^ > $@
+
+scan.o: scan.c
+	$(CC) $(CPPFLAGS) $(CFLAGS) -o $@ -c $^
+
+main.o: main.C
+	$(CXX) $(CPPFLAGS) $(CFLAGS) -o $@ -c $^
+
+lib.o: lib.C
+	$(CXX) $(CPPFLAGS) $(CFLAGS) -o $@ -c $^
+
+cyclo: $(CYCOBJS) $(SCNOBJS)
+	$(CXX) -o $@ $(CFLAGS) $(LDFLAGS) $^ $(LDLIBS)
+
+# not sure if we care about -DNEEDGETOPTDEFS or not...
 
 clean:
-	rm -f cyclo mcstrip core *.o *~
+	$(RM) cyclo mcstrip core *.o *~
 
-veryclean: clean
-	rm -f mcstrip.c scan.c
+cleanall: clean
+	$(RM) *.pre *.mets *.strp $(GENSRCS)
+
+

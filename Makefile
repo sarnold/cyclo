@@ -14,6 +14,14 @@
 # Updated 1996 by R. Statsinger, C. Lott
 # Updated 2015 by Stephen L Arnold
 
+# don't forget to update the version!
+MAJOR_VERSION = 2
+MINOR_VERSION = 1
+PATCH_VERSION = 0
+FULL_VERSION = $(MAJOR_VERSION).$(MINOR_VERSION).$(PATCH_VERSION)
+
+PV = $(MAJOR_VERSION).$(MINOR_VERSION)_pre1
+
 # the actual build stuff starts here
 HEADERS = tokens.h lib.h list.h stack.h
 
@@ -28,9 +36,10 @@ DBG ?= -g
 
 OPTIM	?= -O2
 LFLAGS	= -t
-LDFLAGS	= $(DBG)
-CFLAGS	= $(OPTIM) $(DBG) #-Wall
-LDLIBS	= -lstdc++ -lfl
+MYLDFLAGS	= $(LDFLAGS) $(DBG)
+MYCFLAGS	= $(OPTIM) $(DBG) $(CFLAGS) #-Wall
+MYCXXFLAGS	= $(MYCFLAGS)
+LDADD	= -lstdc++ -lfl
 
 .SUFFIXES:
 .SUFFIXES: .l .c .C .o
@@ -45,7 +54,9 @@ SCNOBJS	= scan.o
 .PHONY: all
 .DEFAULT: all
 
-all: mcstrip cyclo
+PGMS	= mcstrip cyclo
+
+all: $(PGMS)
 
 mcstrip.c: mcstrip.l
 	$(LEX) $(LFLAGS) $^ > $@
@@ -54,18 +65,55 @@ scan.c: scan.l
 	$(LEX) $(LFLAGS) $^ > $@
 
 %.o: %.c
-	$(CC) $(CPPFLAGS) $(CFLAGS) -o $@ -c $^
+	$(CC) $(CPPFLAGS) $(MYCFLAGS) -o $@ -c $^
 
 %.o: %.C
-	$(CXX) $(CPPFLAGS) $(CFLAGS) -o $@ -c $^
+	$(CXX) $(CPPFLAGS) $(MYCFLAGS) -o $@ -c $^
 
 mcstrip: $(MCSOBJS)
-	$(CC) -o $@ $(CFLAGS) $(LDFLAGS) $^ $(LDLIBS)
+	$(CC) -o $@ $(MYCFLAGS) $(MYLDFLAGS) $^ $(LDADD)
 
 cyclo: $(CYCOBJS) $(SCNOBJS)
-	$(CXX) -o $@ $(CFLAGS) $(LDFLAGS) $^ $(LDLIBS)
+	$(CXX) -o $@ $(MYCFLAGS) $(MYLDFLAGS) $^ $(LDADD)
 
 # not sure if we care about -DNEEDGETOPTDEFS or not...
+
+PREFIX		= /usr/local
+EPREFIX		= $(PREFIX)
+DATADIR		= $(PREFIX)/share
+MANPREFIX	= $(PREFIX)/share
+
+BINDIR		= $(DESTDIR)$(EPREFIX)/bin
+MANDIR		= $(DESTDIR)$(MANPREFIX)/man
+DOCDIR		= $(DESTDIR)$(DATADIR)/doc/cyclo-$(PV)
+
+INSTALL		= install -p
+INSTALL_PROGRAM	= $(INSTALL)
+INSTALL_DATA	= $(INSTALL) -m 644
+
+make-install-dirs:
+	mkdir -p $(BINDIR)
+	mkdir -p $(MANDIR)/man0
+	mkdir -p $(MANDIR)/man1
+	mkdir -p $(DOCDIR)
+
+uninstall:
+	$(RM) $(BINDIR)/cyclo
+	$(RM) $(BINDIR)/mcstrip
+	rm -rf $(DOCDIR)
+	$(RM) $(MANDIR)/man0/cyclo.0.gz
+	$(RM) $(MANDIR)/man1/cyclo.1.gz
+	$(RM) $(MANDIR)/man1/mcstrip.1.gz
+
+install: install-targets
+
+install-targets: make-install-dirs
+	$(INSTALL_PROGRAM) -t $(BINDIR) $(PGMS)
+	$(INSTALL_DATA) cyclo.0 $(MANDIR)/man0
+	$(INSTALL_DATA) cyclo.1 $(MANDIR)/man1
+	$(INSTALL_DATA) mcstrip.1 $(MANDIR)/man1
+	$(INSTALL_DATA) README.rst $(DOCDIR)
+	$(INSTALL_DATA) mccabe.example $(DOCDIR)
 
 clean:
 	$(RM) cyclo mcstrip core *.o *~

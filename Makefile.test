@@ -9,14 +9,13 @@ LEX = flex
 DBG ?= -g
 
 OPTIM	?= -O2
-LFLAGS	= -t
 LDFLAGS	= $(DBG)
 CFLAGS	= $(OPTIM) $(DBG) #-Wall
 CXXFLAGS = $(CFLAGS)
 LDLIBS	= -lstdc++ -lfl
 
 .SUFFIXES:
-.SUFFIXES: .l .c .o
+.SUFFIXES: .o .c .C .l
 
 GENSRCS	= mcstrip.c scan.c
 BLDSRCS	= lib.C main.C strerror.c

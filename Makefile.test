@@ -8,7 +8,7 @@ LEX = flex
 
 DBG ?= -g
 
-MYLDFLAGS	= -O2 $(LDFLAGS) $(DBG)
+MYLDFLAGS	= $(CFLAGS) $(LDFLAGS) $(DBG)
 MYCFLAGS	= -O2 -pipe $(CFLAGS) $(DBG)
 MYCXXFLAGS	= $(MYCFLAGS)
 LDADD		= -lstdc++ -lfl

@@ -1,6 +1,18 @@
 Cyclo - the cyclomatic complexity tool for C
 ============================================
 
+.. image:: https://img.shields.io/badge/license-GPL2-green.svg?dummy
+    :target: https://github.com/sarnold/cyclo/blob/master/LICENSE
+
+.. image:: https://badge.fury.io/gh/sarnold%2Fcyclo.svg
+    :target: https://badge.fury.io/gh/sarnold%2Fcyclo
+
+.. image:: https://travis-ci.org/sarnold/cyclo.svg?branch=master
+    :target: https://travis-ci.org/sarnold/cyclo
+
+.. image:: http://githubbadges.herokuapp.com/sarnold/cyclo/issues.svg?style=flat-square
+    :target: https://github.com/sarnold/cyclo/issues
+
 Original version is copyright (c) 1993 Roger Binns
 
 These tools were produced by Roger Binns for a fourth year project as part of

@@ -1,7 +1,18 @@
-# New simplified makefile - Updated 2015 by Stephen L Arnold
+# (c) 2015 Stephen L Arnold
+
+# add metrics test vars
+CAT     = cat
+MCSTRIP = ./mcstrip
+CYCLO   = ./cyclo
+DIFF	= diff -u
+
+CYFLAGS = -DANSI -I./
+
 # Compilation configuration
 CC = gcc
 CXX = g++
+CPP = gcc -E
+RM = rm -f
 
 # we need flex to work around some limitations of certain lex versions
 LEX = flex
@@ -22,8 +33,11 @@ MCSOBJS	= mcstrip.o strerror.o
 CYCOBJS	= main.o lib.o
 SCNOBJS	= scan.o
 
+TSTSRCS = test-input.c
+TSTOUT  = *.preproc *.stripped *.metrics
+
 .INTERMEDIATE: $(GENSRCS)
-.PHONY: all
+.PHONY: all test
 .DEFAULT: all
 
 PGMS	= mcstrip cyclo
@@ -35,6 +49,14 @@ mcstrip: $(MCSOBJS)
 cyclo: $(CYCOBJS) $(SCNOBJS)
 	$(CXX) -o $@ $(MYCXXFLAGS) $(MYLDFLAGS) $^ $(LDADD)
 
+test: all
+	@echo "Creating test data..."
+	$(CPP) $(CYFLAGS) test-input.c > test-input.c.preproc
+	$(MCSTRIP) test-input.c.preproc > test-input.c.stripped
+	$(CAT) test-input.c.stripped | $(CYCLO) -c > test-input.c.metrics
+	@echo "Comparing test results..."
+	$(DIFF) test-base.txt test-input.c.metrics
+
 clean:
-	$(RM) cyclo mcstrip core *.o *~
+	$(RM) cyclo mcstrip core *.o *~ $(TSTOUT)
 

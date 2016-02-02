@@ -1,3 +1,6 @@
 language: c
 
 script: make && make -f Makefile.test test
+
+notifications:
+  irc: "chat.freenode.net#code-hell"

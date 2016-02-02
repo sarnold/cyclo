@@ -1,4 +1,5 @@
 # (c) 1993 Roger Binns
+# changes (c) 2015 Stephen L Arnold
 #
 # These tools were produced by Roger Binns for a fourth year project as part of
 # a computer science degree, for the Computer Science department, Brunel
@@ -20,7 +21,7 @@ MINOR_VERSION = 1
 PATCH_VERSION = 0
 FULL_VERSION = $(MAJOR_VERSION).$(MINOR_VERSION).$(PATCH_VERSION)
 
-PV = $(MAJOR_VERSION).$(MINOR_VERSION)_pre1
+PV = $(FULL_VERSION)
 
 # the actual build stuff starts here
 HEADERS = tokens.h lib.h list.h stack.h
@@ -119,6 +120,6 @@ clean:
 	$(RM) cyclo mcstrip core *.o *~
 
 cleanall: clean
-	$(RM) *.pre *.mets *.strp $(GENSRCS)
+	$(RM) $(GENSRCS)
 
 

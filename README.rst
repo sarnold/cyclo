@@ -4,7 +4,7 @@ Cyclo - the cyclomatic complexity tool for C
 .. image:: https://img.shields.io/badge/license-GPL2-green.svg?dummy
     :target: https://github.com/sarnold/cyclo/blob/master/LICENSE
 
-.. image:: https://badge.fury.io/gh/sarnold%2Fcyclo.svg
+.. image:: https://badge.fury.io/gh/sarnold%2Fcyclo.svg?dummy
     :target: https://badge.fury.io/gh/sarnold%2Fcyclo
 
 .. image:: https://travis-ci.org/sarnold/cyclo.svg?branch=master

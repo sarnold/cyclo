@@ -34,20 +34,19 @@ to legal matters, then don't use it.
 
 To compile::
 
-    IN THE REAL WORLD
+        $ make
   
-        make
-  
-    AT BRUNEL 
-  
-          (read the top of the file 'Makefile.brunel')
-        use gcc-2.3.3
-		use studentsoft
-        make -f Makefile.brunel
+To run the test::
+
+        $ make -f Makefile.test test
 
 For instructions on use, and other info::
 
-        nroff -man cyclo.1 | more
+        $ nroff -man cyclo.1 | more
+
+For an example of using cyclo on all C source files in the current dir
+to create a simple text complexity report, see the file cyclo.mk.inc
+and include it in your static makefile (or adapt it to Makefile.ac).
 
 History and Authors
 -------------------

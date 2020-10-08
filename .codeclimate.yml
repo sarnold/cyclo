@@ -4,7 +4,7 @@ engines:
 
 ## actual check/plugin settings (required if .codeclimate.yml exists)
 
-version: "2"         # required to adjust maintainability checks
+version: "2"  # required to adjust maintainability checks
 checks:
   argument-count:
     config:
@@ -32,7 +32,7 @@ checks:
       threshold: 5
   similar-code:
     config:
-      threshold: # language-specific defaults. an override will affect all languages.
+      threshold:  # language-specific defaults. an override will affect all languages.
   identical-code:
     config:
-      threshold: # language-specific defaults. an override will affect all languages.
+      threshold:  # language-specific defaults. an override will affect all languages.

@@ -1,4 +1,4 @@
-intmain	2
+intminn	2
 staticintf1	8
 
 Total complexity:    10

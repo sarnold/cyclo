@@ -36,7 +36,6 @@ extern int getopt();
 #include <errno.h>
 #include <string.h>
 
-#include "strerror.h"
 
 /* this aren't declared yet */
 int yylex();

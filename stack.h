@@ -23,7 +23,7 @@ third party claims) arising therefrom.
 // NOTE: _STACK_TYPE should be a text only single token.  Use typedefs.
 
 #ifndef COREDUMP
-#define COREDUMP  *((char*)0)=0  // causes a segmentation fault (only under UNIX)
+#define COREDUMP  *((volatile char*)0)=0  // causes a segmentation fault (only under UNIX)
 #endif
 
 #ifndef _STACK_CLASSNAME

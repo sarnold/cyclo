@@ -1,0 +1,299 @@
+Content-type: text/html
+
+<HTML><HEAD><TITLE>Manpage of cyclo</TITLE>
+</HEAD><BODY>
+<H1>cyclo</H1>
+Section: User Commands  (1)<BR>Updated: Programmer's tools<BR><A HREF="#index">Index</A>
+<A HREF="http://localhost/cgi-bin/man/man2html">Return to Main Contents</A><HR>
+
+<A NAME="lbAB">&nbsp;</A>
+<H2>NAME</H2>
+
+cyclo, mcstrip - tools for analysing cyclomatic complexity
+<A NAME="lbAC">&nbsp;</A>
+<H2>SYNOPSIS</H2>
+
+<B>cyclo </B>
+
+[-l] [-t] [-f|-F] [-n func#] [-p] [-s scale] [-c]
+
+[-d] [-i]
+
+<BR>
+
+<B>mcstrip</B>
+
+[-l] [-c] [-r] [-a] [inputfile]
+<BR>
+
+<A NAME="lbAD">&nbsp;</A>
+<H2>DESCRIPTION</H2>
+
+These two tools are used to measure the cyclomatic complexity of
+a piece of ANSI C or C++ code.  A postscript flowgraph of the 
+functions can also be produced.
+<A NAME="lbAE">&nbsp;</A>
+<H2>COMMANDS</H2>
+
+<B>mcstrip</B>
+
+<BR>
+
+This command removes comments, string and character constants from
+the input file, or standard input if none is specified.  If any of 
+the following options are given, it will give details of the file
+instead.
+<BR>
+
+<P>
+
+[-l] print number of lines in file
+<BR>
+
+[-c] print number of lines that contain comments
+<BR>
+
+[-r] print ratio of lines against lines with comments
+<BR>
+
+[-a] print all of the above
+<BR>
+
+
+<P>
+<B>cyclo</B>
+
+<BR>
+
+This command takes as its standard input a file that has had the comments,
+string and character constants removed (by
+<I>mcstrip</I>
+
+).  It will then produce either flowcharts
+or the cyclomatic complexity number of one or more files in the input.
+<BR>
+
+<P>
+Information
+
+[-l] prints results of tokenisation
+<BR>
+
+[-t] prints results of flow generation
+<BR>
+
+
+Functions
+
+[-i] ignores functions declared within a
+<BR>
+
+
+struct/class/union
+
+<BR>
+
+[-n func#] limits output of -p,-f,-F,-c to the given
+<BR>
+
+
+function number, rather than the default of all functions.
+
+<BR>
+
+[-f] prints function name(s)
+<BR>
+
+[-F] prints functions called by each source function
+<BR>
+
+[-c] print cyclomatic complexity of function(s)
+<BR>
+
+[-p] produce postscript flow graph
+<BR>
+
+[-s scale] scales postscript output (float)
+<BR>
+
+[-d] prints function names to postscript standard
+
+output
+
+<BR>
+
+
+<A NAME="lbAF">&nbsp;</A>
+<H2>RETURN CODES</H2>
+
+<B>mcstrip</B>
+
+always returns zero.
+<B>cyclo</B>
+
+returns one in the event of an error, otherwise it returns zero.
+<A NAME="lbAG">&nbsp;</A>
+<H2>EXAMPLES</H2>
+
+<B>Information about file</B>
+
+
+$ 
+<I>mcstrip -a main.C</I>
+
+<BR>
+
+63 comment lines
+<BR>
+
+1199 lines
+<BR>
+
+5 % comments to lines ratio
+<BR>
+
+
+<B>Function names</B>
+
+
+$
+<I>mstrip main.C | cyclo -f</I>
+
+<BR>
+
+Token::Token
+<BR>
+
+Token::~Token
+<BR>
+
+print_funcs
+<BR>
+
+display_arc
+<BR>
+
+display
+<BR>
+
+
+<B>Function calls</B>
+
+
+$
+<I>mcstrip main.C | cyclo -F -n 3</I>
+
+<BR>
+
+print_funcs
+<BR>&nbsp;&nbsp;&nbsp;&nbsp;setw
+<BR>&nbsp;&nbsp;&nbsp;&nbsp;setiosflags
+<BR>&nbsp;&nbsp;&nbsp;&nbsp;print_token
+<BR>&nbsp;&nbsp;&nbsp;&nbsp;resetiosflags
+
+<B>Flow charts</B>
+
+
+$
+<I>mcstrip main.C | cyclo -p -n 3 &gt; flow.ps</I>
+
+<BR>
+
+$
+<I>gs flow.ps</I>
+
+<BR>
+
+<A NAME="lbAH">&nbsp;</A>
+<H2>MORE DETAILED INFORMATION</H2>
+
+The cyclomatic complexity measure counts the number of decisions made within
+a piece of code.  This number is equal to the number of linearly independent
+paths through the code.  Its main application is in establishing test cases.
+Be aware that the measure may not be useful.  It is recommended that further 
+reading is done before using it.
+<P>
+The following papers contain further relevant information:
+<BR>
+
+<P>
+
+'A Complexity Measure' McCabe T.J., IEEE Transactions on Software Engineering
+vol SE-2, #4 1976, pp 308-320.
+<BR>
+
+<P>
+'A Critique of Cyclomatic Complexity as a Software Metric' Shepperd M., Software
+Engineering Journal, March 1988, pp 30-36.
+<BR>
+
+<P>
+'Software Defect Prevention Using McCabe's Complexity Metric' Ward W.T., Hewlett-Packard
+Journal, April 1989, pp 64-69.
+<BR>
+
+<P>
+
+<P>
+<A NAME="lbAI">&nbsp;</A>
+<H2>SEE ALSO</H2>
+
+<A HREF="http://localhost/cgi-bin/man/man2html?1+cflow">cflow</A>(1), <A HREF="http://localhost/cgi-bin/man/man2html?1+wc">wc</A>(1)
+<P>
+<A NAME="lbAJ">&nbsp;</A>
+<H2>LIMITATIONS</H2>
+
+Only the ANSI C method of declaring functions is recognised.
+<BR>
+
+<P>
+Constructors that have an initialiser list have their names incorrectly
+detected.
+<BR>
+
+<P>
+Lexical elements that span more than one line are not recognised.  This
+includes strings terminating with a continuation slash, struct and the
+following tag, and function names and the following opening parenthesis.
+<P>
+<A NAME="lbAK">&nbsp;</A>
+<H2>COPYRIGHT</H2>
+
+(c) 1993 Roger Binns
+<P>
+These tools were produced by Roger Binns for a fourth year project as part of
+a computer science degree, for the Computer Science department, Brunel
+University, Uxbridge, Middlesex UB8 3PH, United Kingdom.
+<P>
+This software is provided in good faith, having been developed by Brunel
+University students as part of their normal course work.  It should not be
+assumed that Brunel has any rights of ownership, and the University cannot
+accept any liability for its subsequent use.  It is a condition of any such
+use that the user idemnifies the University against any claim (including
+third party claims) arising therefrom.
+<P>
+The cyclo tool was updated in 1996 to hande function declarations better
+and to fix a few bugs.  See the README for more information.
+<P>
+
+<HR>
+<A NAME="index">&nbsp;</A><H2>Index</H2>
+<DL>
+<DT><A HREF="#lbAB">NAME</A><DD>
+<DT><A HREF="#lbAC">SYNOPSIS</A><DD>
+<DT><A HREF="#lbAD">DESCRIPTION</A><DD>
+<DT><A HREF="#lbAE">COMMANDS</A><DD>
+<DT><A HREF="#lbAF">RETURN CODES</A><DD>
+<DT><A HREF="#lbAG">EXAMPLES</A><DD>
+<DT><A HREF="#lbAH">MORE DETAILED INFORMATION</A><DD>
+<DT><A HREF="#lbAI">SEE ALSO</A><DD>
+<DT><A HREF="#lbAJ">LIMITATIONS</A><DD>
+<DT><A HREF="#lbAK">COPYRIGHT</A><DD>
+</DL>
+<HR>
+This document was created by
+<A HREF="http://localhost/cgi-bin/man/man2html">man2html</A>,
+using the manual pages.<BR>
+Time: 16:20:05 GMT, October 24, 2015
+</BODY>
+</HTML>

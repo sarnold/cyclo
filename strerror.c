@@ -11,41 +11,21 @@
  */
 #include "strerror.h"
 
-char *strerror(err)
-     int err;
+#ifndef HAVE_STRERROR
+static char *
+private_strerror (errnum)
+     int errnum;
 {
-
+  extern char *sys_errlist[];
   extern int sys_nerr;
-  extern const char *const sys_errlist[];
 
-  static char errmsg[256];
+  if (errnum > 0 && errnum <= sys_nerr)
+    return sys_errlist[errnum];
 
-  if (err >= 0 && err < sys_nerr)
-    strcpy(errmsg, sys_errlist[err]);
-  else
-    (void) sprintf(errmsg, "Error %d", err);
-
-  return errmsg;
+  return "Unknown system error";
 }
-
-  
-#if 0
-char *
-strerror(err)
-        int err;
-{
-        extern int sys_nerr;
-        extern const char *const sys_errlist[];
-
-        static char errmsg[32];
-
-        if (err >= 0 && err < sys_nerr)
-                return sys_errlist[sys_nerr];
-
-        (void) sprintf(errmsg, "Error %d", err);
-        return errmsg;
-}
-#endif
+#define strerror private_strerror
+#endif /* HAVE_STRERROR */
 
 #ifdef DRIVER
 #include <errno.h>

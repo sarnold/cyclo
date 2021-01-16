@@ -18,7 +18,7 @@
 # don't forget to update the version!
 MAJOR_VERSION = 2
 MINOR_VERSION = 1
-PATCH_VERSION = 0
+PATCH_VERSION = 1
 FULL_VERSION = $(MAJOR_VERSION).$(MINOR_VERSION).$(PATCH_VERSION)
 
 PV = $(FULL_VERSION)
@@ -38,8 +38,8 @@ DBG ?= -g
 OPTIM	?= -O2
 LFLAGS	= -t
 MYLDFLAGS	= $(LDFLAGS) $(DBG)
-MYCFLAGS	= $(OPTIM) $(DBG) $(CFLAGS) #-Wall
-MYCXXFLAGS	= $(MYCFLAGS)
+MYCFLAGS	= $(OPTIM) $(DBG) $(CFLAGS)  #-Wall
+MYCXXFLAGS	= $(MYCFLAGS) $(CXXFLAGS)
 LDADD	= -lstdc++ -lfl
 
 .SUFFIXES:
@@ -69,7 +69,7 @@ scan.c: scan.l
 	$(CC) $(CPPFLAGS) $(MYCFLAGS) -o $@ -c $^
 
 %.o: %.C
-	$(CXX) $(CPPFLAGS) $(MYCFLAGS) -o $@ -c $^
+	$(CXX) $(CPPFLAGS) $(MYCXXFLAGS) -o $@ -c $^
 
 mcstrip: $(MCSOBJS)
 	$(CC) -o $@ $(MYCFLAGS) $(MYLDFLAGS) $^ $(LDADD)
@@ -117,7 +117,7 @@ install-targets: make-install-dirs
 	$(INSTALL_DATA) mccabe.example $(DOCDIR)
 
 clean:
-	$(RM) cyclo mcstrip core *.o *~
+	$(RM) cyclo mcstrip core *.o *~ *.metrics *.preproc *.stripped
 
 cleanall: clean
 	$(RM) $(GENSRCS)

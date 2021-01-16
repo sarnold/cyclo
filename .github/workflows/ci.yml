@@ -17,7 +17,7 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        os: [ubuntu-20.04, macos-latest, windows-latest]
+        os: [ubuntu-18.04]
 
     steps:
     - uses: actions/checkout@v2
@@ -25,6 +25,11 @@ jobs:
       run: |
         echo "c:/msys64/bin;c:/msys64/mingw64/bin" >> $GITHUB_PATH
       if: startsWith(matrix.os, 'win')
+
+    - name: Install Ubuntu build deps
+      if: runner.os == 'Linux'
+      run: |
+        sudo apt-get install -y flex libfl-dev
 
     - name: build
       run: make

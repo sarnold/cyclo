@@ -17,10 +17,10 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        os: [ubuntu-20.04]
+        os: [ubuntu-22.04]
 
     steps:
-    - uses: actions/checkout@v2
+    - uses: actions/checkout@v3
     - name: Add 64-bit mingw-w64 to the PATH
       run: |
         echo "c:/msys64/bin;c:/msys64/mingw64/bin" >> $GITHUB_PATH

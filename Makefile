@@ -38,7 +38,7 @@ DBG ?= -g
 OPTIM	?= -O2
 LFLAGS	= -t
 MYLDFLAGS	= $(LDFLAGS) $(DBG)
-MYCFLAGS	= $(OPTIM) $(DBG) $(CFLAGS) #-Wall
+MYCFLAGS	= -D_GNU_SOURCE $(OPTIM) $(DBG) $(CFLAGS) -ansi -Wall
 MYCXXFLAGS	= $(MYCFLAGS)
 LDADD	= -lstdc++ -lfl
 
@@ -46,8 +46,8 @@ LDADD	= -lstdc++ -lfl
 .SUFFIXES: .l .c .C .o
 
 GENSRCS	= mcstrip.c scan.c
-BLDSRCS	= lib.C main.C strerror.c
-MCSOBJS	= mcstrip.o strerror.o
+BLDSRCS	= lib.C main.C
+MCSOBJS	= mcstrip.o
 CYCOBJS	= main.o lib.o
 SCNOBJS	= scan.o
 
@@ -117,9 +117,7 @@ install-targets: make-install-dirs
 	$(INSTALL_DATA) mccabe.example $(DOCDIR)
 
 clean:
-	$(RM) cyclo mcstrip core *.o *~
+	$(RM) cyclo mcstrip core *.o *~ *.metrics *.preproc *.stripped
 
 cleanall: clean
 	$(RM) $(GENSRCS)
-
-
